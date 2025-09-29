@@ -1,0 +1,542 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+<meta charset="utf-8" />\
+<meta name="viewport" content="width=device-width,initial-scale=1" />\
+<title>Kent-Tube</title>\
+<style>\
+  :root\{\
+    --ink:#0b2344;          /* deep navy */\
+    --gold:#e6b33a;         /* Kent gold */\
+    --ink-40:#5c6b83;\
+    --bg:#f7f8fb;\
+    --card:#ffffff;\
+    --muted:#e5e7eb;\
+    --shadow:0 8px 24px rgba(2,8,23,.06);\
+    --radius:18px;\
+  \}\
+  *\{box-sizing:border-box\}\
+  html,body\{height:100%\}\
+  body\{\
+    margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;\
+    background:var(--bg); color:#0a0a0a;\
+  \}\
+  a\{color:inherit\}\
+  .hidden\{display:none !important\}\
+  .container\{\
+    max-width:1200px; margin:0 auto; padding:24px 16px 64px;\
+  \}\
+  /* Brand */\
+  .brand\{\
+    display:inline-flex; align-items:center; gap:14px;\
+    font-weight:800; letter-spacing:.04em; color:var(--ink);\
+    font-size:40px; line-height:1;\
+  \}\
+  .logo\{\
+    width:64px; height:44px; border-radius:10px; background:var(--gold);\
+    display:inline-grid; place-items:center; box-shadow:var(--shadow);\
+  \}\
+  .logo svg\{width:34px; height:34px; fill:var(--ink)\}\
+  /* Cards & blocks */\
+  .card\{\
+    background:var(--card); border:1px solid #eef0f5; border-radius:var(--radius);\
+    box-shadow:var(--shadow);\
+  \}\
+  .btn\{\
+    appearance:none; border:0; border-radius:12px; padding:12px 18px; font-weight:700;\
+    background:var(--ink); color:#fff; cursor:pointer;\
+  \}\
+  .btn.secondary\{background:#e9eef7; color:#0d2242\}\
+  .btn.ghost\{background:transparent; border:1px solid #d7ddea\}\
+  .btn.block\{width:100%\}\
+  .input\{\
+    width:100%; padding:12px 14px; border-radius:12px; border:1px solid #e2e8f0; background:#fff;\
+    font-size:16px;\
+  \}\
+  .stack\{display:flex; flex-direction:column; gap:14px\}\
+  .row\{display:flex; gap:14px; align-items:center; flex-wrap:wrap\}\
+  /* Layout with left rail */\
+  .layout\{\
+    display:grid; grid-template-columns:220px 1fr 280px; gap:22px;\
+  \}\
+  .rail\{\
+    position:sticky; top:18px; height:max-content; padding:14px; border-radius:var(--radius); background:#fff; box-shadow:var(--shadow);\
+  \}\
+  .rail .item\{\
+    display:block; padding:12px 14px; border-radius:12px; color:#0e1d35; text-decoration:none; font-weight:700;\
+  \}\
+  .rail .item.active, .rail .item:hover\{background:#eff3fb\}\
+  .topbar\{\
+    display:flex; align-items:center; gap:14px; margin-bottom:16px;\
+  \}\
+  .search\{flex:1\}\
+  .avatar\{\
+    width:56px; height:56px; border-radius:50%; background:#dfe6f5; display:grid; place-items:center; font-weight:800; color:#3b4b69;\
+  \}\
+  .section-title\{font-size:30px; font-weight:800; margin:10px 0 8px\}\
+  .hr\{height:1px; background:#e7e9f0; margin:10px 0 18px\}\
+  .grid\{\
+    display:grid; gap:16px; grid-template-columns:repeat(12,1fr);\
+  \}\
+  .grid.videos .tile\{grid-column:span 4\}\
+  .grid.playlists .tile\{grid-column:span 6\}\
+  @media (max-width:1000px)\{\
+    .layout\{grid-template-columns:1fr\}\
+    .grid.videos .tile\{grid-column:span 6\}\
+    .grid.playlists .tile\{grid-column:span 12\}\
+    .hide-on-mobile\{display:none\}\
+  \}\
+  @media (max-width:640px)\{\
+    .grid.videos .tile\{grid-column:span 12\}\
+  \}\
+  .tile\{\
+    border:1px solid #eef0f5; border-radius:16px; overflow:hidden; background:#fff; box-shadow:var(--shadow);\
+  \}\
+  .thumb\{\
+    aspect-ratio:16/9; background:linear-gradient(180deg,#f2f4f9,#e5e9f3);\
+    position:relative; display:grid; place-items:center;\
+  \}\
+  .thumb .play\{\
+    width:0; height:0; border-left:22px solid var(--ink); border-top:14px solid transparent; border-bottom:14px solid transparent;\
+    opacity:.9;\
+  \}\
+  .tile .meta\{padding:10px 12px; display:flex; justify-content:space-between; gap:10px\}\
+  .kicker\{font-size:13px; color:#6b7280\}\
+  .pill\{padding:6px 10px; border-radius:999px; background:#edf2fb; font-size:12px; font-weight:700; color:#2f3c5a\}\
+  /* Tabs */\
+  .tabs\{display:flex; gap:12px; flex-wrap:wrap; margin:6px 0 16px\}\
+  .tab\{padding:10px 14px; border-radius:12px; background:#eef2f9; font-weight:700; cursor:pointer; user-select:none\}\
+  .tab.active\{background:var(--ink); color:#fff\}\
+  /* Login screens */\
+  .center\{\
+    min-height:100dvh; display:grid; place-items:center; padding:22px;\
+  \}\
+  .login\{\
+    width:min(560px,92vw); text-align:center; padding:36px 26px 30px; border-radius:22px; background:#fff; box-shadow:var(--shadow);\
+  \}\
+  .login h1\{font-size:42px; margin:0 0 10px\}\
+  .muted-link\{color:#0f2a55; text-decoration:underline; font-weight:700\}\
+  /* Video page specific */\
+  .video-layout\{\
+    display:grid; gap:18px; grid-template-columns:1fr 320px;\
+  \}\
+  @media (max-width:1000px)\{.video-layout\{grid-template-columns:1fr\}\}\
+  .video-player\{border-radius:16px; background:#000; aspect-ratio:16/9; display:grid; place-items:center\}\
+  .video-player button\{background:#fff; border-radius:50%; width:72px; height:72px; border:0; box-shadow:var(--shadow)\}\
+  .comment-input\{display:grid; grid-template-columns:1fr auto; gap:10px\}\
+  /* Small footer badge (eagle) */\
+  .badge\{\
+    position:fixed; right:16px; bottom:16px; width:60px; height:60px; border-radius:18px; background:var(--gold);\
+    box-shadow:var(--shadow); display:grid; place-items:center;\
+  \}\
+  .eagle svg\{width:32px; height:32px; fill:var(--ink)\}\
+  /* Utility */\
+  .right\{margin-left:auto\}\
+  .space\{height:14px\}\
+</style>\
+</head>\
+<body>\
+\
+<!-- ROUTES -->\
+<div id="app"></div>\
+<a class="badge eagle" href="#home" title="Kent-Tube Home" aria-label="Home">\
+  <!-- Eagle icon -->\
+  <svg viewBox="0 0 24 24" aria-hidden="true">\
+    <path d="M21.5 6.6c-1.8 1.2-3.9 1.8-6.2 1.8h-3.9l2.1 1.6-1.5 2.2 2.2 1.2-1 2.3H9.9l-2.2-2.1-2.6 1.5c-.7-1.2-1-2.7-1-4.3 0-4.6 3.7-8.2 9-8.2 3.5 0 6.2 1.4 8.4 4zM5.2 18.7c2.2 1.6 5.1 2.6 8.5 2.6 3.4 0 5.3-.8 7.1-2.4-1.2.2-2.4.2-3.7.2-3.6 0-6.8-.6-9.6-1.9l-2.3 1.5z"/>\
+  </svg>\
+</a>\
+\
+<script>\
+/* -----------------------\
+   Minimal in-memory data\
+------------------------*/\
+const DB = \{\
+  user: \{ role: 'student', name: 'Isaac' \},\
+  faculty: \{ name: 'Dr. Curley' \},\
+  courses: [\
+    \{ id: 'cis34034', title: 'CIS 34034 \'97 Agile', videos: [1,2,3,4,5,6,7,8] \},\
+  ],\
+  videos: Array.from(\{length:16\}, (_,i)=>(\{\
+    id:i+1,\
+    title:`Video $\{i+1\}`,\
+    course:'CIS 34034',\
+    views: 1000 + (i*13),\
+  \})),\
+  playlists: [\
+    \{ id:'p1', title:'Playlist 1', videos:[1,3,5,7,9,11,13,15] \},\
+    \{ id:'p2', title:'Playlist 2', videos:[2,4,6,8] \},\
+  ],\
+  history:[1,4,3,2,6,5,8,7],\
+  saved:[9,10,11,12,13,14,15,16]\
+\};\
+\
+/* -----------------------\
+   Simple hash router\
+------------------------*/\
+const routes = \{\
+  '': studentLogin,\
+  '#student-login': studentLogin,\
+  '#home': home,\
+  '#video': videoPlayer,\
+  '#course': courseProfile,\
+  '#history': historyPage,\
+  '#saved': savedPage,\
+  '#playlists': playlistsPage,\
+  '#playlist': playlistDetail,\
+  '#faculty-login': facultyLogin,\
+  '#faculty': facultyDashboard\
+\};\
+\
+function mount(node)\{ document.getElementById('app').innerHTML = node; \}\
+function navigate(hash)\{ location.hash = hash; \}\
+window.addEventListener('hashchange', render);\
+window.addEventListener('load', ()=> \{\
+  if(!location.hash) navigate('#student-login'); else render();\
+\});\
+\
+/* -----------------------\
+   Common UI pieces\
+------------------------*/\
+const Eagle = `\
+  <span class="logo" aria-hidden="true">\
+    <svg viewBox="0 0 24 24"><path d="M21.5 6.6c-1.8 1.2-3.9 1.8-6.2 1.8h-3.9l2.1 1.6-1.5 2.2 2.2 1.2-1 2.3H9.9l-2.2-2.1-2.6 1.5c-.7-1.2-1-2.7-1-4.3 0-4.6 3.7-8.2 9-8.2 3.5 0 6.2 1.4 8.4 4zM5.2 18.7c2.2 1.6 5.1 2.6 8.5 2.6 3.4 0 5.3-.8 7.1-2.4-1.2.2-2.4.2-3.7.2-3.6 0-6.8-.6-9.6-1.9l-2.3 1.5z"/></svg>\
+  </span>\
+`;\
+const Brand = `<span class="brand">$\{Eagle\}<span>KENT-TUBE</span></span>`;\
+\
+function rail(active)\{\
+  const items = [\
+    ['#home','Home'],\
+    ['#history','History'],\
+    ['#saved','Saved'],\
+    ['#playlists','Playlists']\
+  ];\
+  return `\
+  <nav class="rail card">\
+    $\{items.map(([href,label])=>`\
+      <a class="item $\{location.hash.startsWith(href)?'active':''\}" href="$\{href\}">$\{label\}</a>\
+    `).join('')\}\
+  </nav>`;\
+\}\
+\
+function videoTile(v)\{\
+  return `\
+    <div class="tile">\
+      <div class="thumb" onclick="navigate('#video?id=$\{v.id\}')"><div class="play"></div></div>\
+      <div class="meta">\
+        <div>\
+          <div style="font-weight:800">$\{v.title\}</div>\
+          <div class="kicker">$\{v.course\} \'b7 $\{v.views.toLocaleString()\} views</div>\
+        </div>\
+        <button class="btn ghost" onclick="toggleSave($\{v.id\})">Save</button>\
+      </div>\
+    </div>\
+  `;\
+\}\
+function toggleSave(id)\{\
+  const i = DB.saved.indexOf(id);\
+  if(i>=0) DB.saved.splice(i,1); else DB.saved.unshift(id);\
+  render(); // quick refresh\
+\}\
+\
+/* -----------------------\
+   Pages\
+------------------------*/\
+function studentLogin()\{\
+  mount(`\
+  <div class="center">\
+    <div class="login card">\
+      <h1>Student Sign in</h1>\
+      <div class="space"></div>\
+      $\{Brand\}\
+      <div class="space"></div>\
+      <div class="stack">\
+        <input class="input" placeholder="Username..." />\
+        <input class="input" type="password" placeholder="Password..." />\
+        <button class="btn block" onclick="navigate('#home')">Sign in</button>\
+      </div>\
+      <div class="space"></div>\
+      <a class="muted-link" href="#faculty-login">Faculty Sign in</a>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+function topbar(name,rightExtra='')\{\
+  return `\
+    <div class="topbar">\
+      <input class="input search" placeholder="Search Bar" />\
+      $\{rightExtra\}\
+      <div class="avatar" title="$\{name\}">$\{name?.[0]||'U'\}</div>\
+      <div style="font-weight:800" class="hide-on-mobile">$\{name\}</div>\
+    </div>\
+  `;\
+\}\
+\
+function home()\{\
+  const user = DB.user;\
+  const recent = DB.videos.slice(0,3);\
+  const courses = DB.courses;\
+  mount(`\
+  <div class="container">\
+    $\{topbar(user.name)\}\
+    $\{Brand\}\
+    <div class="space"></div>\
+    <div class="layout">\
+      $\{rail('#home')\}\
+      <main class="stack">\
+        <div class="section-title">Recents from your courses</div>\
+        <div class="grid videos">\
+          $\{recent.map(videoTile).join('')\}\
+        </div>\
+        <div class="section-title">Courses</div>\
+        <div class="grid playlists">\
+          $\{courses.map(c=>`\
+            <div class="tile">\
+              <div class="thumb"></div>\
+              <div class="meta">\
+                <div><div style="font-weight:800">$\{c.title\}</div><div class="kicker">$\{c.videos.length\} videos</div></div>\
+                <a class="btn secondary" href="#course?id=$\{c.id\}">Open</a>\
+              </div>\
+            </div>`).join('')\}\
+        </div>\
+      </main>\
+      <aside class="hide-on-mobile"></aside>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+function videoPlayer()\{\
+  const id = Number(new URLSearchParams(location.hash.split('?')[1]).get('id')) || 1;\
+  const v = DB.videos.find(x=>x.id===id) || DB.videos[0];\
+  if(!DB.history.includes(v.id)) DB.history.unshift(v.id);\
+  mount(`\
+  <div class="container">\
+    $\{topbar(DB.user.name)\}\
+    <div class="layout">\
+      $\{rail('#video')\}\
+      <main class="video-layout">\
+        <div>\
+          <div class="video-player card"><button aria-label="Play/Pause">\uc0\u9654 </button></div>\
+          <div class="card" style="padding:14px; margin-top:12px">\
+            <div style="font-size:22px; font-weight:800">$\{v.title\}</div>\
+            <div class="kicker">$\{v.course\} \'b7 $\{v.views.toLocaleString()\} views</div>\
+          </div>\
+          <div class="card" style="padding:14px; margin-top:12px">\
+            <div class="kicker" style="margin-bottom:8px">Description\'85</div>\
+            <div class="comment-input">\
+              <input class="input" placeholder="Write comment..." />\
+              <button class="btn">\uc0\u10148 </button>\
+            </div>\
+            <div class="hr"></div>\
+            <div class="stack">\
+              <div class="card" style="padding:10px">Comment</div>\
+              <div class="card" style="padding:10px">Comment</div>\
+            </div>\
+          </div>\
+        </div>\
+        <aside class="stack">\
+          $\{DB.videos.slice(0,4).map(v=>`\
+            <div class="tile" onclick="navigate('#video?id=$\{v.id\}')">\
+              <div class="thumb"></div>\
+              <div class="meta"><div style="font-weight:800">$\{v.title\}</div></div>\
+            </div>`).join('')\}\
+        </aside>\
+      </main>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+function courseProfile()\{\
+  const id = new URLSearchParams(location.hash.split('?')[1]).get('id') || DB.courses[0].id;\
+  const c = DB.courses.find(x=>x.id===id) || DB.courses[0];\
+  mount(`\
+  <div class="container">\
+    $\{topbar(DB.user.name)\}\
+    $\{Brand\}\
+    <div class="tabs">\
+      <div class="tab active">Recent</div>\
+      <div class="tab">Playlists</div>\
+      <div class="tab">Assignments</div>\
+      <div class="tab">Files</div>\
+    </div>\
+    <div class="layout">\
+      $\{rail('#course')\}\
+      <main>\
+        <div class="grid videos">\
+          $\{c.videos.slice(0,9).map(id=>videoTile(DB.videos.find(v=>v.id===id))).join('')\}\
+        </div>\
+      </main>\
+      <aside class="hide-on-mobile"></aside>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+function historyPage()\{\
+  mount(`\
+  <div class="container">\
+    $\{topbar(DB.user.name,'')\}\
+    <div class="layout">\
+      $\{rail('#history')\}\
+      <main class="stack">\
+        <div class="section-title">History</div>\
+        <div class="row">\
+          <input class="input" placeholder="Search History" style="max-width:360px">\
+          <button class="btn ghost" onclick="DB.history=[]; render()">\uc0\u55357 \u56785 \u65039  Delete History</button>\
+        </div>\
+        <div class="grid videos">\
+          $\{DB.history.map(id=>videoTile(DB.videos.find(v=>v.id===id))).join('') || '<div class="kicker">No history yet.</div>'\}\
+        </div>\
+      </main>\
+      <aside class="hide-on-mobile"></aside>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+function savedPage()\{\
+  mount(`\
+  <div class="container">\
+    $\{topbar(DB.user.name)\}\
+    <div class="layout">\
+      $\{rail('#saved')\}\
+      <main class="stack">\
+        <div class="section-title">Saved</div>\
+        <div class="row">\
+          <input class="input" placeholder="Search Saved" style="max-width:360px">\
+          <button class="btn ghost" onclick="alert('Playing all saved\'85')">\uc0\u9654  Play All</button>\
+          <button class="btn ghost" onclick="alert('Add video flow\'85')">\uc0\u65291  Add Video</button>\
+        </div>\
+        <div class="grid videos">\
+          $\{DB.saved.map(id=>videoTile(DB.videos.find(v=>v.id===id))).join('') || '<div class="kicker">No saved videos yet.</div>'\}\
+        </div>\
+      </main>\
+      <aside class="hide-on-mobile"></aside>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+function playlistsPage()\{\
+  mount(`\
+  <div class="container">\
+    $\{topbar(DB.user.name)\}\
+    <div class="layout">\
+      $\{rail('#playlists')\}\
+      <main class="stack">\
+        <div class="section-title">Playlists</div>\
+        <div class="row">\
+          <input class="input" placeholder="Search Playlists" style="max-width:360px">\
+          <button class="btn ghost" onclick="newPlaylist()">\uc0\u65291  New Playlist</button>\
+        </div>\
+        <div class="grid playlists">\
+          $\{DB.playlists.map(p=>`\
+            <a class="tile" href="#playlist?id=$\{p.id\}">\
+              <div class="thumb"></div>\
+              <div class="meta"><div style="font-weight:800">$\{p.title\}</div><span class="pill">$\{p.videos.length\} videos</span></div>\
+            </a>\
+          `).join('')\}\
+        </div>\
+      </main>\
+      <aside class="hide-on-mobile"></aside>\
+    </div>\
+  </div>\
+  `);\
+\}\
+function newPlaylist()\{\
+  const n = prompt('Name for new playlist?'); if(!n) return;\
+  DB.playlists.unshift(\{id:'p'+Math.random().toString(36).slice(2,6), title:n, videos:[]\});\
+  render();\
+\}\
+\
+function playlistDetail()\{\
+  const id = new URLSearchParams(location.hash.split('?')[1]).get('id') || DB.playlists[0].id;\
+  const p = DB.playlists.find(x=>x.id===id) || DB.playlists[0];\
+  mount(`\
+  <div class="container">\
+    $\{topbar(DB.user.name)\}\
+    <div class="layout">\
+      $\{rail('#playlist')\}\
+      <main class="stack">\
+        <div class="section-title">$\{p.title\}</div>\
+        <div class="row">\
+          <input class="input" placeholder="Search Playlist" style="max-width:360px">\
+          <button class="btn ghost" onclick="alert('Playing all\'85')">\uc0\u9654  Play All</button>\
+          <button class="btn ghost" onclick="alert('Add video\'85')">\uc0\u65291  Add Video</button>\
+        </div>\
+        <div class="grid videos">\
+          $\{p.videos.map(id=>videoTile(DB.videos.find(v=>v.id===id))).join('') || '<div class="kicker">Playlist is empty.</div>'\}\
+        </div>\
+      </main>\
+      <aside class="hide-on-mobile"></aside>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+function facultyLogin()\{\
+  mount(`\
+  <div class="center">\
+    <div class="login card">\
+      <h1>Faculty Sign in</h1>\
+      <div class="space"></div>\
+      $\{Brand\}\
+      <div class="space"></div>\
+      <div class="stack">\
+        <input class="input" placeholder="Username..." />\
+        <input class="input" type="password" placeholder="Password..." />\
+        <button class="btn block" onclick="navigate('#faculty')">Sign in</button>\
+      </div>\
+      <div class="space"></div>\
+      <a class="muted-link" href="#student-login">Student Sign in</a>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+function facultyDashboard()\{\
+  mount(`\
+  <div class="container">\
+    $\{topbar(DB.faculty.name, `<button class="btn secondary hide-on-mobile" onclick="navigate('#home')">View as Student</button>`)\}\
+    $\{Brand\}\
+    <div class="tabs">\
+      <div class="tab active">Recent</div>\
+      <div class="tab">Playlists</div>\
+      <div class="tab">Assignments</div>\
+      <div class="tab">Files</div>\
+      <a class="tab" href="#faculty&students" onclick="event.preventDefault(); alert('Students list\'85')">Students</a>\
+    </div>\
+    <div class="layout">\
+      $\{rail('#faculty')\}\
+      <main>\
+        <div class="grid videos">\
+          $\{DB.videos.slice(0,6).map(videoTile).join('')\}\
+        </div>\
+      </main>\
+      <aside class="hide-on-mobile"></aside>\
+    </div>\
+  </div>\
+  `);\
+\}\
+\
+/* -----------------------\
+   Render entry\
+------------------------*/\
+function render()\{\
+  const key = Object.keys(routes).find(k => k && location.hash.startsWith(k)) || '#student-login';\
+  routes[key]();\
+\}\
+</script>\
+</body>\
+</html>\
+}
